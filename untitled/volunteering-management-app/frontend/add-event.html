@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Event</title>
+    <style>
+        /* Embedded CSS Styles for Add New Event */
+        body {
+            background-image: url('https://images.pexels.com/photos/5029919/pexels-photo-5029919.jpeg?auto=compress&cs=tinysrgb&w=600'), url('https://images.pexels.com/photos/5029919/pexels-photo-5029919.jpeg?auto=compress&cs=tinysrgb&w=600');
+            background-size: auto, auto;
+            background-repeat: no-repeat, no-repeat;
+            background-attachment: fixed;
+            background-position: left top, right top;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        input[type="url"],
+        textarea {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Add New Event</h1>
+        </div>
+        <form>
+            <label for="event-name">Event Name:</label>
+            <input type="text" id="event-name" name="event-name" required>
+
+            <label for="event-date">Event Date:</label>
+            <input type="date" id="event-date" name="event-date" required>
+
+            <label for="event-location">Event Location:</label>
+            <input type="text" id="event-location" name="event-location" required>
+
+            <label for="volunteers-needed">Volunteers Needed:</label>
+            <input type="number" id="volunteers-needed" name="volunteers-needed" required>
+
+            <label for="image-url">Image URL:</label>
+            <input type="url" id="image-url" name="image-url" required>
+
+            <label for="event-details">Event Details:</label>
+            <textarea id="event-details" name="event-details" rows="4" required></textarea>
+
+            <!-- Add more fields as needed -->
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+<script>
+
+// Get form elements
+const eventForm = document.querySelector('form');
+const eventNameInput = document.getElementById('event-name');
+const eventDateInput = document.getElementById('event-date');
+const eventLocationInput = document.getElementById('event-location');
+const volunteersNeededInput = document.getElementById('volunteers-needed');
+const imageUrlInput = document.getElementById('image-url');
+const eventDetailsInput = document.getElementById('event-details');
+
+
+
+
+
+// Listen for form submit event
+eventForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    // Create new event object
+    const newEvent = {
+        name: eventNameInput.value,
+        date: eventDateInput.value,
+        locations: eventLocationInput.value,
+        volunteersNeeded: volunteersNeededInput.value,
+        imageUrl: imageUrlInput.value,
+        details: eventDetailsInput.value
+    };
+
+    // Make POST request to /api/Add-events
+    const response = await fetch('/api/Add-events', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newEvent),
+    });
+
+    if (response.ok) {
+    alert('Event has been added!');
+
+    //
+
+    // Redirect to home page after a delay
+        window.location.href = 'events.html';
+    // Delay of 1 second
+} else {
+    alert('An error occurred. Please try again.');
+}
+
+});
+</script>

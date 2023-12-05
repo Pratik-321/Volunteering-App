@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteering Management App</title>
+    <style>
+        /* Embedded CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.pexels.com/photos/5029919/pexels-photo-5029919.jpeg?auto=compress&cs=tinysrgb&w=600'), url('https://images.pexels.com/photos/5029919/pexels-photo-5029919.jpeg?auto=compress&cs=tinysrgb&w=600');
+            background-size: auto, auto;
+            background-repeat: no-repeat, no-repeat;
+            background-attachment: fixed;
+            background-position: left top, right top;
+        }
+
+        .header {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .header p {
+            margin: 10px 0;
+            font-size: 18px;
+            font-family: "Verdana", sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .event-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .event-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-details {
+            margin-top: 10px;
+        }
+
+        .register-button,
+        .location-button,
+        .more-details-button {
+            display: inline-block;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-top: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .register-button:hover,
+        .location-button:hover,
+        .more-details-button:hover {
+            background-color: #555;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .button-group a {
+            flex: 1;
+        }
+
+        /* Login modal styles */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .login-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .login-form h2 {
+            margin: 0 0 20px;
+        }
+
+        .login-form button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background-color: #555;
+        }
+        .menu-bar {
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+        }
+
+        /* Updated CSS for the Menu Bar */
+/* Updated CSS for the Menu Bar with Fixed Position */
+        /* Updated CSS for the Menu Bar without Fixed Position */
+.menu-bar {
+    background-color: #333;
+    overflow: hidden;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.menu-bar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.menu-bar a:hover {
+    background-color: #555;
+}
+
+/* Style the active menu item */
+.menu-bar a.active {
+    background-color: #4CAF50;
+}
+
+/* Style for the menu bar brand/logo (if applicable) */
+.menu-bar .brand-logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 20px;
+    color: #fff;
+}
+
+/* Responsive design for the menu bar */
+@media screen and (max-width: 600px) {
+    .menu-bar a {
+        float: none;
+        display: block;
+        text-align: left;
+        padding: 10px;
+    }
+
+    .menu-bar .brand-logo {
+        margin: 0;
+        text-align: center;
+        padding: 10px;
+    }
+    /* Style the "Give Review" button */
+.review-button {
+    display: inline-block;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.review-button:hover {
+    background-color: #555;
+}
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Volunteering Management App</h1>
+        <p style="font-family: 'Helvetica Neue', sans-serif;">The passion to volunteer never stops.</p>
+        <p>Contact us at: contact@example.com</p>
+    </div>
+     <div class="menu-bar">
+        <a href="about-us.html">About Us</a>
+        <a href="contact-us.html">Contact Us</a>
+        <a href="faq-help.html">FAQ / Help</a>
+    </div>
+
+    <div class="container" id="events">
+        <!-- Event cards will be dynamically generated here -->
+    </div>
+    <div class="login-modal" id="loginModal">
+        <div class="login-form">
+            <h2>Login</h2>
+            <p>Are you a volunteer or looking for a volunteer?</p>
+            <button onclick="openVolunteerRegistration()">I'm a Volunteer</button>
+            <button onclick="openAgencyRegistration()">I'm looking for a Volunteer</button>
+        </div>
+    </div>
+    <script>
+        // Sample event data with unique content for each event
+        const eventsData = [
+            {
+                id: 1,
+                name: "Tree Plantation Drive 🌳",
+                date: "10/06/2023",
+                location: "Seminary Hills",
+                volunteersNeeded: "100-120",
+                imageUrl: "https://students.1fbusa.com/hubfs/25%20Ways%20to%20Volunteer%20in%20Your%20Community.jpg",
+                details: `
+                    <p>Description: Join us for a day of greenery and fresh air as we plant trees in Seminary Hills. Let's make our environment greener together!</p>
+                    <p>Contact Person: Emily Green</p>
+                    <p>Contact Email: emily@example.com</p>
+                `
+            },
+            {
+                id: 2,
+                name: "Old Age Home Visit 👴👵",
+                date: "10/06/2023",
+                location: "Uthkhana Old Age Home",
+                volunteersNeeded: "50-60",
+                imageUrl: "https://www.thepresidiumschool.com/news_image/0vivek-vihar-oldage-home-visit-2019-0001.jpg",
+                details: `
+                    <p>Description: Spend quality time with the elderly residents of Uthkhana Old Age Home. Your presence can bring smiles to their faces.</p>
+                    <p>Contact Person: James Smith</p>
+                    <p>Contact Email: james@example.com</p>
+                `
+            },
+            {
+                id: 3,
+                name: "Computer Vision Hack-a-thon 💻",
+                date: "10/06/2023",
+                location: "MBA Building, RCOEM",
+                volunteersNeeded: "10-15",
+                imageUrl: "https://media.geeksforgeeks.org/wp-content/uploads/20230724195303/Hackathons-For-Beginners.webp",
+                details: `
+                    <p>Description: Calling all tech enthusiasts! Join our Computer Vision Hack-a-thon and showcase your coding skills.</p>
+                    <p>Contact Person: Sarah Johnson</p>
+                    <p>Contact Email: sarah@example.com</p>
+                `
+            },
+            {
+                id: 4,
+                name: "Puppy Shelter 🐶",
+                date: "10/06/2023",
+                location: "Dhantoli",
+                volunteersNeeded: "10-15",
+                imageUrl: "https://imgstaticcontent.lbb.in/lbbnew/wp-content/uploads/sites/1/2015/09/Animal_shelters.jpg",
+                details: `
+                    <p>Description: Spend a fun day at our puppy shelter in Dhantoli. Play with adorable puppies and help them find their forever homes.</p>
+                    <p>Contact Person: Lisa Davis</p>
+                    <p>Contact Email: lisa@example.com</p>
+                `
+            },
+            {
+                id: 5,
+                name: "Blood Donation Camp 💉",
+                date: "10/06/2023",
+                location: "Red Cross Society",
+                volunteersNeeded: "20-25",
+                imageUrl: "https://www.jainuniversity.ac.in/uploads/blog/1e47845a74d7a5c24cd6c0b7be23b4ee.jpg",
+                details: `
+                    <p>Description: Save lives by donating blood at our Blood Donation Camp. Your contribution can make a significant impact on those in need.</p>
+                    <p>Contact Person: John Anderson</p>
+                    <p>Contact Email: john@example.com</p>
+                `,
+                status: "Successfully Done"
+            },
+            {
+                id: 6,
+                name: "Beach Cleanup 🏖️",
+                date: "05/10/2026",
+                location: "Oceanfront Beach",
+                volunteersNeeded: "30-40",
+                imageUrl: "https://images.assettype.com/dtnext/2022-09/3ad273f4-8f31-422b-bcce-2157d6d29221/anchor.jpg",
+                details: `
+                    <p>Description: Join us for a beach cleanup event and help protect our oceans. Let's keep our beaches clean and beautiful!</p>
+                    <p>Contact Person: Maria Rodriguez</p>
+                    <p>Contact Email: maria@example.com</p>
+                `,
+                status: "Successfully Done"
+            }
+        ];
+
+        // Function to toggle the visibility of event details
+        function toggleEventDetails(eventId) {
+            const eventDetailsContent = document.querySelector(`#event-details-${eventId}`);
+
+            if (eventDetailsContent.style.display === "none" || eventDetailsContent.style.display === "") {
+                eventDetailsContent.style.display = "block";
+            } else {
+                eventDetailsContent.style.display = "none";
+            }
+
+            // Prevent the default anchor behavior
+            event.preventDefault();
+        }
+
+        // Function to open the login modal
+        function openLoginModal() {
+            const loginModal = document.getElementById("loginModal");
+            loginModal.style.display = "flex";
+        }
+
+        // Function to open the volunteer registration page
+        function openVolunteerRegistration() {
+            // Redirect to the volunteer registration page (you can replace this URL)
+            window.location.href = "volunteer-registration.html";
+        }
+
+        // Function to open the requester registration page
+        function openRequesterRegistration() {
+            // Redirect to the requester registration page (you can replace this URL)
+            window.location.href = "requester-registration.html";
+        }
+
+        // Function to open the location in Google Maps
+        function openLocationInMaps(location) {
+            // Construct the Google Maps URL with the location as a query parameter
+            const mapsUrl = `https://www.google.com/maps/search/?q=${encodeURIComponent(location)}`;
+
+            // Open the URL in a new tab or window
+            window.open(mapsUrl, '_blank');
+        }
+
+        // Function to open the review page
+        function openReviewPage() {
+            // Redirect to the review page (you can replace this URL)
+            window.location.href = "review.html";
+        }
+
+        // Function to display events on the page
+        function displayEvents() {
+            const eventsSection = document.getElementById("events");
+
+            eventsData.forEach((event) => {
+                const eventCard = document.createElement("div");
+                eventCard.classList.add("event-card");
+
+                // Determine if the event is upcoming or already done
+                const today = new Date();
+                const eventDate = new Date(event.date);
+                const isUpcoming = eventDate >= today;
+                const statusText = isUpcoming ? "Upcoming Event" : "Successfully Done";
+
+                eventCard.innerHTML = `
+                    <img src="${event.imageUrl}" alt="${event.name}">
+                    <h2>${event.name}</h2>
+                    <div class="event-details">
+                        <p>Date: ${event.date}</p>
+                        <p>Location: ${event.location}</p>
+                        <p>Volunteers Needed: ${event.volunteersNeeded}</p>
+                    </div>
+                    <div class="event-details-container">
+                        <div id="event-details-${event.id}" class="event-details-content" style="display: none;">
+                            ${event.details}
+                        </div>
+                        ${isUpcoming ? '' : `<button class="review-button" onclick="openReviewPage()">Give Review</button>`}
+                        <a class="more-details-button" href="#" onclick="toggleEventDetails(${event.id})">More Details</a>
+                    </div>
+
+                    <div class="button-group">
+                        <a class="register-button" href="#" onclick="openLoginModal()">Register</a>
+                        <a class="location-button" href="#" onclick="openLocationInMaps('${event.location}')">View Location</a>
+                    </div>
+                `;
+
+                eventsSection.appendChild(eventCard);
+            });
+        }
+
+        // Call the displayEvents function to show events on page load
+        displayEvents();
+    </script>
+</body>
+</html>
